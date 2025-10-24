@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>قصيدة — محمد سوفت</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
+    :root{
+      --accent: #00e0ff;
+      --text: #ffffff;
+      --bg1: #0d1b2a;
+      --bg2: #1b263b;
+      --bg3: #415a77;
+    }
+
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Tajawal',sans-serif;
+      color:var(--text);
+      background: linear-gradient(120deg,var(--bg1),var(--bg2),var(--bg3));
+      background-size:300% 300%;
+      animation:bgMove 10s ease-in-out infinite;
+      overflow:hidden;
+      direction:rtl;
+    }
+
+    @keyframes bgMove{
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+
+    .card{
+      width:90%;
+      max-width:800px;
+      padding:35px;
+      border-radius:20px;
+      background:rgba(255,255,255,0.05);
+      box-shadow:0 10px 40px rgba(0,0,0,0.4);
+      backdrop-filter: blur(12px);
+      border:1px solid rgba(255,255,255,0.1);
+      text-align:center;
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    @keyframes fadeIn{
+      0%{opacity:0; transform:translateY(40px);}
+      100%{opacity:1; transform:translateY(0);}
+    }
+
+    h1{
+      font-size:2rem;
+      margin-bottom:10px;
+      color:var(--accent);
+      letter-spacing:1px;
+      text-shadow:0 0 10px rgba(0,224,255,0.4);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow{
+      from{ text-shadow:0 0 5px var(--accent);}
+      to{ text-shadow:0 0 20px var(--accent), 0 0 40px var(--accent);}
+    }
+
+    .poem{
+      font-size:1.4rem;
+      line-height:2.2;
+      text-align:right;
+      margin-top:20px;
+      animation: slideUp 1.2s ease forwards;
+    }
+
+    @keyframes slideUp{
+      from{opacity:0; transform:translateY(30px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+
+    .line{
+      margin:8px 0;
+    }
+
+    .quoted{
+      display:inline-block;
+      background:rgba(0,224,255,0.1);
+      border:1px solid rgba(0,224,255,0.2);
+      border-radius:12px;
+      padding:10px 15px;
+      color:#bffaff;
+      font-weight:bold;
+      transition:all 0.3s ease;
+    }
+
+    .quoted:hover{
+      background:rgba(0,224,255,0.25);
+      transform:scale(1.03);
+      box-shadow:0 0 15px rgba(0,224,255,0.3);
+    }
+
+    .controls{
+      margin-top:25px;
+      display:flex;
+      justify-content:center;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      background:transparent;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,0.2);
+      padding:10px 18px;
+      border-radius:10px;
+      font-size:1rem;
+      cursor:pointer;
+      transition:0.3s;
+      position:relative;
+      overflow:hidden;
+    }
+
+    button.primary{
+      background:linear-gradient(90deg,var(--accent),#0099ff);
+      color:#00141f;
+      border:none;
+      font-weight:bold;
+    }
+
+    button:hover{
+      transform:translateY(-3px);
+      box-shadow:0 5px 15px rgba(0,224,255,0.3);
+    }
+
+    @media(max-width:600px){
+      h1{font-size:1.5rem;}
+      .poem{font-size:1.1rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>قال محمد سوفت</h1>
+
+    <div class="poem" id="poem">
+      <div class="line">قَفَلتُ بِيَوْمٍ طَرِيقِي فِي الظُّلَمِ،</div>
+      <div class="line">وَالنُّجُومُ تَسْمَعُ أَمْلِي وَأَحْزَانِي.</div>
+
+      <div class="line quoted">
+        <span id="withHarakat">قَالَ مُحَمَّدُ سُوفْتْ: «ضَقَطْتُهُمْ فَتَحَالَفُوا ضِدِّي».</span>
+        <span id="withoutHarakat" style="display:none;">قال محمد سوفت: «ضقطتهم فتحالفو ضدي».</span>
+      </div>
+
+      <div class="line">تَسَاقَطَتْ أَحْلامِي كَقَطَرَاتِ مَطَرٍ،</div>
+      <div class="line">وَمَعَ ذَلِكَ أَشْرِقُ صَبَاحًا بَينَ الرُّمَادِ.</div>
+    </div>
+
+    <div class="controls">
+      <button id="copyBtn">انسخ السطر المَقتبَس</button>
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById('toggle');
+    const withH = document.getElementById('withHarakat');
+    const withoutH = document.getElementById('withoutHarakat');
+    const copyBtn = document.getElementById('copyBtn');
+
+    btn.addEventListener('click', () => {
+      const showingHarakat = withH.style.display !== 'none';
+      if(showingHarakat){
+        withH.style.display = 'none';
+        withoutH.style.display = 'inline';
+      } else {
+        withH.style.display = 'inline';
+        withoutH.style.display = 'none';
+      }
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      const text = (withH.style.display !== 'none') ? withH.textContent : withoutH.textContent;
+      try{
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = 'تم النسخ ✓';
+        setTimeout(()=> copyBtn.textContent = 'انسخ السطر المَقتبَس', 1500);
+      }catch{
+        alert('انسخ النص يدويًا:\n' + text);
+      }
+    });
+  </script>
+</body>
+</html>
