@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>قصيدة — محمد سوفت</title>
+  <title>قصيدة — محمد سوفت والرد</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
 
     :root{
       --accent: #00e0ff;
+      --accent2: #ff4d6d;
       --text: #ffffff;
       --bg1: #0d1b2a;
       --bg2: #1b263b;
@@ -81,9 +82,7 @@
       to{opacity:1; transform:translateY(0);}
     }
 
-    .line{
-      margin:8px 0;
-    }
+    .line{margin:8px 0;}
 
     .quoted{
       display:inline-block;
@@ -94,6 +93,13 @@
       color:#bffaff;
       font-weight:bold;
       transition:all 0.3s ease;
+    }
+
+    .reply{
+      background:rgba(255,77,109,0.1);
+      border:1px solid rgba(255,77,109,0.3);
+      color:#ffd6de;
+      text-shadow:0 0 5px rgba(255,77,109,0.3);
     }
 
     .quoted:hover{
@@ -119,20 +125,25 @@
       font-size:1rem;
       cursor:pointer;
       transition:0.3s;
-      position:relative;
-      overflow:hidden;
-    }
-
-    button.primary{
-      background:linear-gradient(90deg,var(--accent),#0099ff);
-      color:#00141f;
-      border:none;
-      font-weight:bold;
     }
 
     button:hover{
       transform:translateY(-3px);
       box-shadow:0 5px 15px rgba(0,224,255,0.3);
+    }
+
+    button.primary{
+      background:linear-gradient(90deg,var(--accent2),#ff7b9c);
+      color:#00141f;
+      font-weight:bold;
+      border:none;
+    }
+
+    audio{
+      width:100%;
+      margin-top:15px;
+      border-radius:10px;
+      outline:none;
     }
 
     @media(max-width:600px){
@@ -143,52 +154,44 @@
 </head>
 <body>
   <div class="card">
-    <h1>قال محمد سوفت</h1>
+    <h1>محمد سوفت والرد</h1>
 
     <div class="poem" id="poem">
       <div class="line">قَفَلتُ بِيَوْمٍ طَرِيقِي فِي الظُّلَمِ،</div>
       <div class="line">وَالنُّجُومُ تَسْمَعُ أَمْلِي وَأَحْزَانِي.</div>
 
-      <div class="line quoted">
-        <span id="withHarakat">قَالَ مُحَمَّدُ سُوفْتْ: «ضَقَطْتُهُمْ فَتَحَالَفُوا ضِدِّي».</span>
-        <span id="withoutHarakat" style="display:none;">قال محمد سوفت: «ضقطتهم فتحالفو ضدي».</span>
-      </div>
+      <div class="line quoted">قَالَ مُحَمَّدُ سُوفْتْ: «ضَقَطْتُهُمْ فَتَحَالَفُوا ضِدِّي».</div>
 
       <div class="line">تَسَاقَطَتْ أَحْلامِي كَقَطَرَاتِ مَطَرٍ،</div>
       <div class="line">وَمَعَ ذَلِكَ أَشْرِقُ صَبَاحًا بَينَ الرُّمَادِ.</div>
+
+      <div class="line reply">قَالَ الوَلَدُ: «لَا يَغْلِبُ مَنْ صَدَقَ، وَإِنْ تَحَالَفُوا عَلَيْهِ».</div>
     </div>
 
     <div class="controls">
-      <button id="copyBtn">انسخ السطر المَقتبَس</button>
+      <button id="playBtn" class="primary">تشغيل رد الولد 🎧</button>
     </div>
+
+    <!-- 🔊 ضع ملفك الصوتي هنا -->
+    <audio id="replyAudio" src="reply.mp3"></audio>
   </div>
 
   <script>
-    const btn = document.getElementById('toggle');
-    const withH = document.getElementById('withHarakat');
-    const withoutH = document.getElementById('withoutHarakat');
-    const copyBtn = document.getElementById('copyBtn');
+    const playBtn = document.getElementById('playBtn');
+    const audio = document.getElementById('replyAudio');
 
-    btn.addEventListener('click', () => {
-      const showingHarakat = withH.style.display !== 'none';
-      if(showingHarakat){
-        withH.style.display = 'none';
-        withoutH.style.display = 'inline';
-      } else {
-        withH.style.display = 'inline';
-        withoutH.style.display = 'none';
+    playBtn.addEventListener('click', () => {
+      if(audio.paused){
+        audio.play();
+        playBtn.textContent = 'إيقاف الرد ⏸️';
+      }else{
+        audio.pause();
+        playBtn.textContent = 'تشغيل رد الولد 🎧';
       }
     });
 
-    copyBtn.addEventListener('click', async () => {
-      const text = (withH.style.display !== 'none') ? withH.textContent : withoutH.textContent;
-      try{
-        await navigator.clipboard.writeText(text);
-        copyBtn.textContent = 'تم النسخ ✓';
-        setTimeout(()=> copyBtn.textContent = 'انسخ السطر المَقتبَس', 1500);
-      }catch{
-        alert('انسخ النص يدويًا:\n' + text);
-      }
+    audio.addEventListener('ended', ()=>{
+      playBtn.textContent = 'تشغيل رد الولد 🎧';
     });
   </script>
 </body>
